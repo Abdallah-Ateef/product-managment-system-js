@@ -15,6 +15,22 @@ let tablebody=document.querySelector('table tbody');
 let switchbtt='Create';
 let cnt;
 
+let bttnscroll=document.querySelector('.scroll-up');
+/* ScrollY*/
+window.addEventListener('scroll',function(){
+    if(this.scrollY>=400){
+        bttnscroll.style.display='block';
+    }else bttnscroll.style.display='none';
+})
+
+bttnscroll.addEventListener('click',()=>{
+    scroll({
+        top:0,
+        behavior:'smooth',
+    })
+})
+
+
 /* get Total */
  
 function getTotal(){
@@ -146,7 +162,87 @@ function modifyproduct(ind){
     bttnsubmit.innerHTML='Update';
     switchbtt='Update';
     cnt=ind;
+    scroll({
+        top:0,
+        behavior:'smooth',
+    });
+    title.focus();
 }
+
+/* search product */
+
+var modesearch='title';
+
+ function getsearchmode(id){
+    if(id=='searchbytitle'){
+        modesearch='title';
+    }else{
+        modesearch='category';  
+    }
+    searchbox.setAttribute('placeholder',`Search by ${modesearch}`);
+    searchbox.focus();
+   searchbox.value='';
+   drawUi(productdata);
+}
+
+searchbox.addEventListener('keyup',function(){
+   if(modesearch=='title'){
+    tablebody.innerHTML='';
+     for(let i=0;i<productdata.length;i++){
+        if(productdata[i].title.toLowerCase().includes(searchbox.value.toLowerCase())){
+            tablebody.innerHTML +=`
+            <tr>
+                <td>${i+1}</td>
+                <td>${productdata[i].title}</td>
+                <td>${productdata[i].price}</td>
+                <td>${productdata[i].taxes}</td>
+                <td>${productdata[i].ads}</td>
+                <td>${productdata[i].discount}</td>
+                <td>${productdata[i].total}</td>
+                <td>${productdata[i].category}</td>
+                <td><button id="update" onclick='modifyproduct(${i})'>Update</button></td>
+                <td><button id="delete" onclick="deletitem(${i})">Delete</button></td>
+            </tr>
+            ` 
+            
+        }
+     }
+
+    
+   }
+   else{
+    if(modesearch=='category'){
+        tablebody.innerHTML='';
+         for(let i=0;i<productdata.length;i++){
+            if(productdata[i].title.toLowerCase().includes(searchbox.value.toLowerCase())){
+                tablebody.innerHTML +=`
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${productdata[i].title}</td>
+                    <td>${productdata[i].price}</td>
+                    <td>${productdata[i].taxes}</td>
+                    <td>${productdata[i].ads}</td>
+                    <td>${productdata[i].discount}</td>
+                    <td>${productdata[i].total}</td>
+                    <td>${productdata[i].category}</td>
+                    <td><button id="update" onclick='modifyproduct(${i})'>Update</button></td>
+                    <td><button id="delete" onclick="deletitem(${i})">Delete</button></td>
+                </tr>
+                ` 
+                
+            }
+         }
+
+    
+   }
+}});
+
+
+
+
+
+
+
 
 
 
