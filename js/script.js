@@ -63,21 +63,25 @@ function createproduct(){
             count:count.value,
             category:category.value,
         }
- if(switchbtt=='Create'){
-    for(let i=0;i<count.value;i++){
-        productdata.push(obj);
-    }
-}else{
-    productdata[cnt]=obj;
-    switchbtt='Create';
-    bttnsubmit.innerHTML='Create';
-    count.style.display='block';
+        if(title.value !='' && category.value !=''){
+            if(switchbtt=='Create'){
+                if(obj.count<=100){
+                for(let i=0;i<count.value;i++){
+                    productdata.push(obj);
+                }}
+            }else{
+                productdata[cnt]=obj;
+                switchbtt='Create';
+                bttnsubmit.innerHTML='Create';
+                count.style.display='block';
 
-}  
+            }
+            cleardata();
+        }        
 
    saveproduct(productdata);
    drawUi(productdata)
-   cleardata();
+   
 }
 
 /* drawUi */
@@ -142,7 +146,10 @@ function deletitem(num){
 /* delete All product */
 
 function deletall(){
-    productdata.splice(0);
+
+    if(confirm('Do you want to delete all product')){
+        productdata.splice(0);
+    }
     drawUi(productdata);
     saveproduct(productdata)
 }
@@ -236,6 +243,8 @@ searchbox.addEventListener('keyup',function(){
     
    }
 }});
+
+
 
 
 
